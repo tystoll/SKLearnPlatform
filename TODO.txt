@@ -1,0 +1,72 @@
+3/21 Work
+Pull together 3 classes in src to core and features
+	-rip indicators out of datapipeline into features
+	-build out 3 classes from _claude in files
+
+Goal close run style
+data = Data()
+data._df = df
+
+strategy = Strategy(data_=data, strategy_="default")
+strategy.add_indicators().build_feature_groups().add_labels()
+
+model = Model(strategy_=strategy, model_name_="HGBC", model_type_="classifier")
+splits = model.time_split()
+results = model.grid_search(splits=splits)
+
+//TODO//
+new command from main
+python -m main.gs
+python -m src.ModelPipeline
+python -m server.splitandbuild
+##############################################################################
+SQL Connection testing and setup with venv now
+SQL commands for doing some database manipulation
+SQL command for pulling stuff
+Look at the DB file GPT made
+correctly read and save files
+make a save yahoo or save indicator
+load a raw or indicator
+finish requirements.txt
+##############################################################################
+Finish logging Datapipeline
+Make Strategy
+Make it look nicer, more me you know?
+I would like it to print the groups and name and data loaded cleaner.
+find way to add time frames in one data frame
+tier 1 and market structure understanding and utilize
+clean up indicators, add basic ones, expand/build out better format
+regime labeling function
+##############################################################################
+Finish ModelPipeline
+
+look at the logging and understand it
+find better way to restructure logging
+finish optuna
+look at how to make preprocessor dynamic
+edge family labeling (trend, mean reversion, volatility expansion, volatility decay)
+expectancy per (model x regime x edge)
+ensemble design
+Move Horizon/Target To Data
+Strategies.json look at how scoring needs to be stored
+Splitpack work look at the warmup slice add
+##############################################################################
+IBK account and bots logging data for me
+pull up old server stuff and figure out how to make it work now
+JK TOTALLY DIFFERENT
+Chat stuff to pull out
+TWS install
+IBKR account
+Trading view bots
+parquet manager
+to pandas reader
+##############################################################################
+LoadersPipeline
+Make the real Data
+yahoo download - multi version
+ticks
+sql read/write
+take stuff out of Datapipeline
+take stuff out of Model, model loading and saving?
+crypto from yahoo?
+forex from yahoo?

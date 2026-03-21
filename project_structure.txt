@@ -1,0 +1,94 @@
+stocks/
+├── .git							# done - .gitignore
+├── .venv							# virtual environment dependancy - .gitignore
+├── configs/						# done
+│   ├── run/						# done
+│   │   ├── baseline.yaml			# todo
+│   │   ├── grid.yaml				# todo
+│   │   └── optuna.yaml				# todo
+│   ├── mlflow.yaml					# todo
+│   ├── database.py                 # database info loader - pulls from .env
+│   └── engine.py                   # database connector through sqlalchemy
+│
+├── data/							# todo - .gitignore
+│   ├── external/                   # optional if you keep yahoo/raw csvs
+│   ├── interim/                    # optional engineered dfs if you choose to cache them
+│   └── raw/                        # optional imported third-party dfs
+│       └── StockDailyPrice.csv		# Download from CapstoneDatabase
+│
+├── files/							# todo - merge to src/core/.pys
+│   ├── Data_claude.py              # class 1
+│   ├── Model_claude.py             # class 2
+│   └── Strategy_claude.py          # class 3
+│
+├── mlruns/                         # local MLflow tracking store
+│
+├── notebooks/						# done
+│   ├── analysis/					# not sure?
+│   └── experiments/				# not sure?
+│
+├── runs/							# done
+│   ├── analyzer/                   # later summaries/charts/tables
+│   ├── gs/                         # local JSON/CSV outputs from grid search
+│   ├── models/                     # local best-model joblibs
+│   └── optuna/                     # local Optuna trial exports
+│
+├── scripts/						# done
+│   ├── run_baseline.py				# todo
+│   ├── run_grid.py					# todo
+│   ├── run_optuna.py				# todo
+│   └── summarize_runs.py			# todo (location of all old gs files to merge)
+│
+├── server/							# done - stuff to pull, push to CapstoneDatabase
+│
+├── src/							# todo
+│   ├── core/                       # todo
+│   │   ├── data.py                 # Data class: df in/out, raw load/save, model artifact save/load
+│   │   ├── strategy.py             # Strategy class: indicators, feature groups, labels
+│   │   ├── model.py                # Model class: preprocessors, splits, GS, Optuna
+│   │   ├── analyzer.py             # later: consume gs/optuna results + backtest/eval summaries
+│   │   └── types.py                # dataclasses: SplitPack, GridSearchResults, OptunaResults, etc.
+│   │
+│   ├── features/                   # todo
+│   │   ├── indicators.py           # sma/ema/rsi/roc/etc pure funcs
+│   │   ├── micro.py                # accel, jerk, ER, vol change, compression
+│   │   ├── structure.py            # swing, BoS, range, anatomy, structure state
+│   │   └── labeling.py             # forward-return targets / class targets
+│   │
+│   ├── registry/                   # done
+│   │   ├── models.json             # default production model configs
+│   │   ├── models_full.json        # full grid / experimental configs
+│   │   ├── strategies.json         # strategy definitions
+│   │   ├── strategies.py           # loader/helpers around JSON registries
+│   │   └── tickers.txt             # tickers to download data for
+│   │
+│   ├── tracking/                   # todo
+│   │   ├── mlflow_logger.py        # all MLflow logging wrappers
+│   │   ├── artifacts.py            # save csv/json/joblib paths consistently
+│   │   └── naming.py               # run names, experiment names, artifact keys
+│   │
+│   ├── training/					# todo
+│   │   ├── preprocess.py           # ColumnTransformer builders
+│   │   ├── search.py               # grid search / optuna helpers if you want them outside Model
+│   │   └── scoring.py              # custom scorers / metric helpers
+│   │
+│   ├── utils/						# todo
+│   │   ├── paths.py                # PROJECT_ROOT, DATA_DIR, RESULTS_DIR, MLFLOW_DIR
+│   │   ├── logging.py              # shared logger setup
+│   │   └── io.py                   # optional shared json/csv helpers
+│   │
+│   └── __init__.py					# done
+│
+├── tests/							# done
+│   ├── test_data.py				# todo
+│   ├── test_strategy.py			# todo
+│   ├── test_model.py				# todo
+│   └── test_labeling.py			# todo
+│
+├── .env							# database info - .gitignore
+├── .gitignore						# todo
+├── project_structure				# up to date file structure for AI tools
+├── README.md						# project documentation
+├── requirements.txt				# python requirements
+├── testdbconnection.py				# helper code
+└── TODO							# todo

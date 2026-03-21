@@ -1,0 +1,6 @@
+pandas
+yfinance
+python-dotenv
+joblib
+optuna
+scikit-learn

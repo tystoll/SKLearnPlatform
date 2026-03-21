@@ -1,0 +1,97 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# =========================
+# Virtual environments
+# =========================
+.venv/
+venv/
+env/
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+.env.*
+*.env
+
+# =========================
+# Data policy
+# =========================
+data/
+*.csv
+*.parquet
+*.feather
+
+# Allow structure but not contents (optional)
+!data/.gitkeep
+
+# =========================
+# EXPERIMENT OUTPUTS
+# =========================
+experiment_results/
+runs/
+mlruns/
+results/
+logs/
+*.log
+
+# Model artifacts
+*.joblib
+*.pkl
+*.model
+
+# =========================
+# NOTEBOOKS
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# IDE / OS
+# =========================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# =========================
+# TEST / TEMP
+# =========================
+*.tmp
+*.bak
+*.swp
+
+# =========================
+# BUILD / CACHE
+# =========================
+.cache/
+dist/
+build/
+
+# =========================
+# DATABASE / LOCAL CONFIG
+# =========================
+*.db
+*.sqlite
+
+# =========================
+# PROJECT SPECIFIC
+# =========================
+
+# Large registries (keep tracked)
+# models.json → KEEP
+# strategies.json → KEEP
+# tickers.txt → KEEP
+
+# Ignore generated configs if needed
+configs/run/*.yaml
+
+# Ignore server-side generated files
+server/*.csv
+server/*.parquet
