@@ -1,223 +1,163 @@
-# Quant Research Platform
+# Quant ML Research Framework
 
-An end-to-end algorithmic trading research platform built in Python. Ingests multi-timeframe market data for a configurable watchlist via `yfinance`, processes it through a modular `DataPipeline` with 20+ technical indicators and structural market features, and feeds it into a `ModelPipeline` that trains, cross-validates, and tunes scikit-learn models — with structured result logging in JSON/CSV for every strategy × model combination.
+End-to-end machine learning framework for systematic trading research.
 
-**Status:** Active development. Core data and model pipelines are operational. Multi-timeframe support is being expanded. Market regime detection and multi-horizon labeling are on the roadmap.
-
----
-
-## What It Does
-
-### Data Pipeline (`DataPipeline.py`)
-
-- Downloads OHLCV data for a full watchlist (25+ tickers) across four timeframes: `1m` (7d), `1h` (max), `1d` (max), `1mo` (max) — with rate-limit-aware sleep between requests
-- Saves and loads from a consistent CSV schema: `{TICKER}_{period}_{interval}_raw.csv`
-- Computes **20+ technical indicators** from a strategy config: SMA, EMA, TEMA, RSI, momentum, ROC, volume ROC, PVP, ATR, Bollinger Bands, MACD, and more
-- Builds **structural market features**: swing highs/lows, HH/HL/LH/LL classification, break-of-structure (BOS) signals, failed BOS, liquidity sweeps, range compression ratio, inside bar counts, overlap ratio
-- Computes **bar anatomy features**: close position in bar, upper/lower wick ratio, body ratio, rejection wick ratio
-- Derives **structure state features**: trend direction (+1/-1/0), trend consistency score over rolling swing events, structure age (bars since last flip)
-- Generates classification labels (`y_class_3`) based on configurable forward-return thresholds and horizon windows — with separate intraday and daily threshold defaults
-
-### Strategy Registry (`strategies.json` + `strategies.py`)
-
-- Strategies are JSON-defined configs: indicator set, horizon, buy/sell thresholds — fully decoupled from code
-- Registry exposes `get_strategy()`, `load_strategies()`, `DAILY_STRATEGIES`, `INTRADAY_STRATEGIES`, `ALL_STRATEGIES` — importable anywhere in the stack
-- Strategies cleanly separate intraday (tight thresholds, short periods) from daily (swing-oriented, larger moves)
-- Currently includes: `default`, `intraday_default`, `intraday_fast_momentum`, `classic_swing`, and more
-
-### Model Registry (`models.json` + `models_full.json`)
-
-- Models registered in JSON with class name, step name, params, param grid for grid search, and scoring config
-- `models.json` = production/tested subset; `models_full.json` = full experimental set
-- Registered models: `HistGradientBoostingClassifier`, `RandomForestClassifier`, `ExtraTreesClassifier`, `LogisticRegression`, `RidgeClassifier`, `SVC`, `MLPClassifier`, plus regression variants
-- `build_model_from_config()` instantiates any registered model directly from its JSON entry
-
-### Model Pipeline (`ModelPipeline.py`)
-
-- Wraps a full scikit-learn `Pipeline`: imputation → scaling (Standard / MinMax / Robust) → optional PCA → model
-- Uses `TimeSeriesSplit` cross-validation (configurable splits, test size, gap) — no data leakage
-- Runs `GridSearchCV` across all registered param grids, scoring simultaneously on accuracy, directional accuracy, F1, Sharpe-like score, and RMSE
-- Tracks best params and scores per metric independently via `GridSearchResults` dataclass
-- Integrates **Optuna** for Bayesian hyperparameter optimization as an alternative to grid search
-- Serializes best models per metric to `.joblib` for downstream ensemble use
-
-### Experiment Runner (`gs.py` + `gs1.py`)
-
-- `gs.py` orchestrates the full loop: every strategy × every model combination, shared `TimeSeriesSplit`, structured JSON logging per run
-- `gs1.py` runs one strategy against all models using shared splits for fair comparison
-- Both generate a `summary.csv` pivot (model × metric scores) and a printed `summary.txt` snapshot per run
-- Results land in `results/{run_id}/logs/`, `results/{run_id}/models/`, and summary files — all gitignored
+This project builds market datasets, generates structured features, trains multiple models, and evaluates strategy performance across different market conditions.
 
 ---
 
-## Project Structure
-
-```
-stocks/
-├── .git							# done - .gitignore
-├── .venv							# virtual environment dependancy - .gitignore
-├── configs/						# done
-│   ├── run/						# done
-│   │   ├── baseline.yaml			# todo
-│   │   ├── grid.yaml				# todo
-│   │   └── optuna.yaml				# todo
-│   ├── mlflow.yaml					# todo
-│   ├── database.py                 # database info loader - pulls from .env
-│   └── engine.py                   # database connector through sqlalchemy
-│
-├── data/							# todo - .gitignore
-│   ├── external/                   # optional if you keep yahoo/raw csvs
-│   ├── interim/                    # optional engineered dfs if you choose to cache them
-│   └── raw/                        # optional imported third-party dfs
-│       └── StockDailyPrice.csv		# Download from CapstoneDatabase
-│
-├── files/							# todo - merge to src/core/.pys
-│   ├── Data_claude.py              # class 1
-│   ├── Model_claude.py             # class 2
-│   └── Strategy_claude.py          # class 3
-│
-├── mlruns/                         # local MLflow tracking store
-│
-├── notebooks/						# done
-│   ├── analysis/					# not sure?
-│   └── experiments/				# not sure?
-│
-├── runs/							# done
-│   ├── analyzer/                   # later summaries/charts/tables
-│   ├── gs/                         # local JSON/CSV outputs from grid search
-│   ├── models/                     # local best-model joblibs
-│   └── optuna/                     # local Optuna trial exports
-│
-├── scripts/						# done
-│   ├── run_baseline.py				# todo
-│   ├── run_grid.py					# todo
-│   ├── run_optuna.py				# todo
-│   └── summarize_runs.py			# todo (location of all old gs files to merge)
-│
-├── server/							# done - stuff to pull, push to CapstoneDatabase
-│
-├── src/							# todo
-│   ├── core/                       # todo
-│   │   ├── data.py                 # Data class: df in/out, raw load/save, model artifact save/load
-│   │   ├── strategy.py             # Strategy class: indicators, feature groups, labels
-│   │   ├── model.py                # Model class: preprocessors, splits, GS, Optuna
-│   │   ├── analyzer.py             # later: consume gs/optuna results + backtest/eval summaries
-│   │   └── types.py                # dataclasses: SplitPack, GridSearchResults, OptunaResults, etc.
-│   │
-│   ├── features/                   # todo
-│   │   ├── indicators.py           # sma/ema/rsi/roc/etc pure funcs
-│   │   ├── micro.py                # accel, jerk, ER, vol change, compression
-│   │   ├── structure.py            # swing, BoS, range, anatomy, structure state
-│   │   └── labeling.py             # forward-return targets / class targets
-│   │
-│   ├── registry/                   # done
-│   │   ├── models.json             # default production model configs
-│   │   ├── models_full.json        # full grid / experimental configs
-│   │   ├── strategies.json         # strategy definitions
-│   │   ├── strategies.py           # loader/helpers around JSON registries
-│   │   └── tickers.txt             # tickers to download data for
-│   │
-│   ├── tracking/                   # todo
-│   │   ├── mlflow_logger.py        # all MLflow logging wrappers
-│   │   ├── artifacts.py            # save csv/json/joblib paths consistently
-│   │   └── naming.py               # run names, experiment names, artifact keys
-│   │
-│   ├── training/					# todo
-│   │   ├── preprocess.py           # ColumnTransformer builders
-│   │   ├── search.py               # grid search / optuna helpers if you want them outside Model
-│   │   └── scoring.py              # custom scorers / metric helpers
-│   │
-│   ├── utils/						# todo
-│   │   ├── paths.py                # PROJECT_ROOT, DATA_DIR, RESULTS_DIR, MLFLOW_DIR
-│   │   ├── logging.py              # shared logger setup
-│   │   └── io.py                   # optional shared json/csv helpers
-│   │
-│   └── __init__.py					# done
-│
-├── tests/							# done
-│   ├── test_data.py				# todo
-│   ├── test_strategy.py			# todo
-│   ├── test_model.py				# todo
-│   └── test_labeling.py			# todo
-│
-├── .env							# database info - .gitignore
-├── .gitignore						# todo
-├── project_structure				# up to date file structure for AI tools
-├── README.md						# project documentation
-├── requirements.txt				# python requirements
-├── testdbconnection.py				# helper code
-└── TODO							# todo
-```
-
----
-
-## Roadmap
-
-- [ ] **Market regime detection** — classify current macro/volatility regime to condition model selection and signal interpretation
-- [ ] **Multi-horizon labeling** — predict across multiple forward windows simultaneously; evaluate which horizon fits which strategy best
-- [ ] **Multi-timeframe feature fusion** — merge 1m / 1h / 1d features into unified input vectors at inference time
-- [ ] **AnalyzePipeline class** — dedicated post-run analysis layer: performance attribution, signal quality metrics, equity curve simulation
-- [ ] **SQL integration** — persist processed features and results to a structured DB via the existing `db/engine.py` layer
-
----
-
-## Quick Start
-
-### Prerequisites
-- Python 3.10+
-- Git
-
-### Setup
+## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/tystoll/SKLearnPlatform.git
-cd SKLearnPlatform
+git clone https://github.com/yourusername/ml-quant-research-framework.git
+cd ml-quant-research-framework
+
 python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
+
 pip install -r requirements.txt
-cp .env.example .env             # fill in DB credentials if using SQL features
-```
 
-### Download Data
+python -m main.gs1
+📊 What This Project Does
+Downloads market data using yfinance
+Builds feature-rich datasets using configurable strategies
+Applies technical + structural indicators
+Trains multiple ML models (sklearn pipelines)
+Runs time-series aware cross-validation
+Performs grid search + Optuna optimization
+Logs results for every strategy × model combination
+Saves best models for ensemble development
+🧠 Core Architecture
+Data Pipeline
 
-```python
-from src.DataPipeline import generate_data_all_times
+Handles:
 
-generate_data_all_times(ticker="AAPL")   # downloads 1m / 1h / 1d / 1mo
-```
-
-### Run the Experiment Loop
-
-```bash
-python main/gs.py        # full strategy × model grid
-python main/gs1.py       # one strategy vs all models, shared splits
-```
-
-### Build a Pipeline Manually
-
-```python
+Data ingestion (multi-ticker support)
+Indicator generation (EMA, RSI, ROC, ATR, etc.)
+Structural features (trend, volatility, compression)
+Feature grouping (price, bounded, delta, rate, composite)
 from src.DataPipeline import DataPipeline
+
+data = DataPipeline()
+data.build()
+Strategy Registry
+
+Strategies are fully configurable via JSON.
+
+Each strategy defines:
+
+Indicator set
+Prediction horizon
+Buy/sell thresholds
+from src.strategies import get_strategy
+
+strategy = get_strategy("classic_swing")
+Model Pipeline
+
+Builds full sklearn pipelines:
+
+Imputation → Scaling → (Optional PCA) → Model
+TimeSeriesSplit (no data leakage)
+Multi-metric evaluation
+Grid Search + Optuna support
 from src.ModelPipeline import ModelPipeline
 
-dp = DataPipeline(ticker_="SPY", period_="max", interval_="1d", strategy_="classic_swing")
-dp.load_from_csv()
-dp.add_indicators()
-dp.add_labels()
+mp = ModelPipeline(model_name_="HGBC", strategy_="default")
+mp.grid_search()
+Experiment Runners
+Single Strategy Benchmark
+python -m main.gs1
+Runs ONE strategy across ALL models
+Uses shared dataset splits for fair comparison
+Outputs:
+logs/
+models/
+results_summary.csv
+Full Strategy × Model Sweep
+python -m main.gs
+Runs ALL strategies × ALL models
+Generates full performance matrix
+📈 Example Output
 
-mp = ModelPipeline(data_pipeline=dp, model_name_="HGBC")
-mp.run_grid_search()
-mp.save_best_models()
-```
+After running:
+
+python -m main.gs1
+results/
+  ├── logs/
+  │   ├── default_HGBC.json
+  │   ├── default_RFC.json
+  │   └── ...
+  ├── models/
+  │   ├── default_HGBC_f1.joblib
+  │   └── ...
+  ├── results_summary.csv
+  └── summary.txt
+⚙️ Features
+JSON-driven architecture (strategies + models)
+Time-series cross-validation (TSCV)
+Feature engineering pipeline with grouped preprocessing
+Multi-model benchmarking framework
+Structured experiment logging
+
+Designed for:
+
+Regime-aware modeling
+Ensemble learning
+Strategy comparison at scale
+🧪 Models Supported
+HistGradientBoosting (HGBC)
+Random Forest (RFC)
+Logistic Regression
+Extra Trees
+Support Vector Machine (SVC)
+Multi-Layer Perceptron (MLP)
+📦 Requirements
+pandas
+yfinance
+python-dotenv
+joblib
+optuna
+scikit-learn
+🧱 Project Structure
+stocks/
+├── configs/
+├── data/
+├── notebooks/
+├── runs/
+├── scripts/
+├── server/
+├── src/
+│   ├── core/
+│   ├── features/
+│   ├── registry/
+│   ├── tracking/
+│   ├── training/
+│   └── utils/
+├── tests/
+├── README.md
+├── requirements.txt
+└── .env
+🧭 Roadmap
+ Market regime classification (trend / chop / volatility)
+ Multi-horizon prediction targets
+ Ensemble model stacking
+ Multi-timeframe feature fusion
+ Live trading integration (IBKR / TradingView)
+⚠️ Disclaimer
+
+This project is for research purposes only.
+Not financial advice.
+
+👤 Author
+
+Built as part of a quantitative research and ML trading system.
+
 
 ---
 
-## Stack
+If you want next level beyond this, I’d go:
 
-| Layer | Tools |
-|---|---|
-| Data ingestion | `yfinance` |
-| Feature engineering | `pandas`, `numpy` |
-| ML models | `scikit-learn` |
-| Hyperparameter tuning | `Optuna`, `GridSearchCV` |
-| Cross-validation | `TimeSeriesSplit` |
-| Model persistence | `joblib` |ks
+👉 add a **results screenshot + “best model so far” section**  
+👉 or turn this into a **portfolio page / recruiter version**
+
+Just say the word 👍
