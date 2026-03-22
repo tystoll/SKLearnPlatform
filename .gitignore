@@ -39,8 +39,7 @@ ENV/
 # Data — raw CSVs, downloads, interim caches
 # ============================================================================
 data/
-server/*.csv
-server/*.parquet
+server/*.py
 
 # ============================================================================
 # ML artifacts
