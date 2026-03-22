@@ -1,0 +1,161 @@
+{
+  "default": {
+    "name": "default",
+    "description": "Default intraday indicator set",
+    "indicators": [
+      {"name": "ema","period": 3},
+	  {"name": "ema","period": 5},
+	  {"name": "ema","period": 8},
+	  {"name": "ema","period": 13},
+	  {"name": "rsi","period": 2},
+	  {"name": "rsi","period": 3},
+	  {"name": "rsi","period": 5},
+	  {"name": "rsi","period": 14},
+	  {"name": "momentum","period": 3},
+	  {"name": "momentum","period": 5},
+	  {"name": "momentum","period": 8},
+	  {"name": "roc","period": 3},
+	  {"name": "roc","period": 5},
+	  {"name": "roc","period": 8},
+	  {"name": "volumeroc","period": 5},
+	  {"name": "volumeroc","period": 13}
+	],
+	"horizon": 5,
+	"buy_thresh": 0.0015,
+	"sell_thresh": 0.0015
+  },
+  "intraday_default": {
+    "name": "intraday_default",
+    "description": "Basic intraday momentum - short periods",
+    "indicators": [
+      {"name": "sma","period": 5},
+      {"name": "sma","period": 15},
+      {"name": "sma","period": 35},
+      {"name": "ema","period": 15},
+      {"name": "tema","period": 15},
+      {"name": "rsi","period": 14},
+      {"name": "momentum","period": 14},
+      {"name": "roc","period": 14},
+      {"name": "volumeroc","period": 14},
+      {"name": "pvp","roc_period": 14,"pvp_period": 14}
+    ],
+    "horizon": 5,
+    "buy_thresh": 0.001,
+    "sell_thresh": 0.001
+  },
+  "intraday_fast_momentum": {
+    "name": "intraday_fast_momentum",
+    "description": "Fast-reacting momentum for intraday",
+    "indicators": [
+      {"name": "sma","period": 5},
+      {"name": "sma","period": 10},
+      {"name": "ema","period": 8},
+      {"name": "tema","period": 10},
+      {"name": "rsi","period": 7},
+      {"name": "momentum","period": 5},
+      {"name": "roc","period": 5},
+      {"name": "volumeroc","period": 10}
+    ],
+    "horizon": 3,
+    "buy_thresh": 0.0015,
+    "sell_thresh": 0.0015
+  },
+  "daily_comprehensive": {
+    "name": "daily_comprehensive",
+    "description": "Full feature set for daily data",
+    "indicators": [
+      {"name": "sma","period": 5},
+      {"name": "sma","period": 10},
+      {"name": "sma","period": 20},
+      {"name": "sma","period": 50},
+      {"name": "ema","period": 8},
+      {"name": "ema","period": 21},
+      {"name": "ema","period": 55},
+      {"name": "tema","period": 10},
+      {"name": "tema","period": 21},
+      {"name": "rsi","period": 7},
+      {"name": "rsi","period": 14},
+      {"name": "rsi","period": 21},
+      {"name": "momentum","period": 5},
+      {"name": "momentum","period": 10},
+      {"name": "momentum","period": 20},
+      {"name": "roc","period": 5},
+      {"name": "roc","period": 10},
+      {"name": "roc","period": 20},
+      {"name": "volumeroc","period": 10},
+      {"name": "volumeroc","period": 20},
+      {"name": "pvp","roc_period": 10,"pvp_period": 10},
+      {"name": "pvp","roc_period": 20,"pvp_period": 20}
+    ],
+    "horizon": 5,
+    "buy_thresh": 0.02,
+    "sell_thresh": 0.02
+  },
+  "classic_swing": {
+    "name": "classic_swing",
+    "description": "Classic swing trading setup (10/20/50 SMA)",
+    "indicators": [
+      {"name": "sma","period": 10},
+      {"name": "sma","period": 50},
+      {"name": "tema","period": 20},
+      {"name": "rsi","period": 14},
+      {"name": "momentum","period": 10},
+      {"name": "roc","period": 10},
+      {"name": "volumeroc","period": 20}
+    ],
+    "horizon": 5,
+    "buy_thresh": 0.02,
+    "sell_thresh": 0.02
+  },
+  "fib_swing": {
+    "name": "fib_swing",
+    "description": "Fibonacci-based swing (8/21/55 periods)",
+    "indicators": [
+      {"name": "sma","period": 8},
+      {"name": "sma","period": 21},
+      {"name": "sma","period": 55},
+      {"name": "tema","period": 21},
+      {"name": "rsi","period": 14},
+      {"name": "momentum","period": 10},
+      {"name": "roc","period": 10},
+      {"name": "volumeroc","period": 20}
+    ],
+    "horizon": 5,
+    "buy_thresh": 0.02,
+    "sell_thresh": 0.02
+  },
+  "fast_momentum": {
+    "name": "fast_momentum",
+    "description": "Fast momentum (Fibonacci short periods)",
+    "indicators": [
+      {"name": "sma","period": 5},
+      {"name": "sma","period": 13},
+      {"name": "sma","period": 34},
+      {"name": "tema","period": 10},
+      {"name": "rsi","period": 7},
+      {"name": "momentum","period": 5},
+      {"name": "roc","period": 5},
+      {"name": "volumeroc","period": 14}
+    ],
+    "horizon": 3,
+    "buy_thresh": 0.025,
+    "sell_thresh": 0.025
+  },
+  "trend_follow": {
+    "name": "trend_follow",
+    "description": "Long-term trend following (20/50/200 SMA)",
+    "indicators": [
+      {"name": "sma","period": 20},
+      {"name": "sma","period": 50},
+      {"name": "sma","period": 200},
+      {"name": "tema","period": 50},
+      {"name": "rsi","period": 14},
+      {"name": "momentum","period": 20},
+      {"name": "roc","period": 20},
+      {"name": "volumeroc","period": 20}
+    ],
+    "horizon": 10,      
+    "buy_thresh": 0.03,
+    "sell_thresh": 0.03
+  }
+}

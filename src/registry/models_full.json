@@ -1,0 +1,311 @@
+{
+  "HGBC": {
+    "id": "HGBC",
+    "task": "classifier",
+    "sklearn_class": "HistGradientBoostingClassifier",
+    "step_name": "classifier",
+    "params": {
+      "learning_rate": [0.01, 0.03, 0.05, 0.1],
+      "max_iter": [200, 500, 1000],
+      "max_depth": [2, 3, 4],
+      "min_samples_leaf": [10, 20, 50],
+      "l2_regularization": [0.0, 0.1, 1.0],
+      "max_features": [0.8, 1.0],
+      "max_bins": [128, 255],
+      "early_stopping": [false],
+      "class_weight": [null, "balanced"],
+      "random_state": 42
+    },
+    "notes": "Default HGBC classifier"
+  },
+
+  "RFC": {
+    "id": "RFC",
+    "task": "classifier",
+    "sklearn_class": "RandomForestClassifier",
+    "step_name": "classifier",
+    "params": {
+      "n_estimators": [300, 600, 1000],
+      "max_depth": [null, 3, 5, 8, 12],
+      "min_samples_split": [2, 5, 10, 20],
+      "min_samples_leaf": ["sqrt", "log2", 0.3, 0.5, 0.8],
+      "max_features": ["sqrt", "log2", 0.3, 0.5, 0.8],
+      "bootstrap": [true, false],
+      "class_weight": [null, "balanced", "balanced_subsample"],
+      "random_state": 42
+    },
+    "notes": "Default RandomForest classifier"
+  },
+
+  "LOGREG": {
+    "id": "LOGREG",
+    "task": "classifier",
+    "sklearn_class": "LogisticRegression",
+    "step_name": "classifier",
+    "params": [
+		{
+            "penalty": ["l2"],
+            "C": [0.001, 0.01, 0.1, 1.0, 10.0],
+            "solver": ["lbfgs", "saga"],
+            "fit_intercept": [true, false],
+            "class_weight": [null, "balanced"],
+            "multi_class": ["auto", "multinomial"],
+			"random_state": 42
+        },
+        {
+            "penalty": ["l1"],
+            "C": [0.001, 0.01, 0.1, 1.0, 10.0],
+            "solver": ["saga"],
+            "fit_intercept": [true, false],
+            "class_weight": [null, "balanced"],
+			"random_state": 42
+        },
+        {
+            "penalty": ["elasticnet"],
+            "C": [0.001, 0.01, 0.1, 1.0, 10.0],
+            "solver": ["saga"],
+            "l1_ratio": [0.2, 0.5, 0.8],
+            "fit_intercept": [true, false],
+            "class_weight": [null, "balanced"],
+			"random_state": 42
+        }
+	],
+    "notes": "Default logistic regression classifier"
+  },
+
+  "RIDGE_CLF": {
+    "id": "RIDGE_CLF",
+    "task": "classifier",
+    "sklearn_class": "RidgeClassifier",
+    "step_name": "classifier",
+    "params": {
+        "alpha": [0.01, 0.1, 1.0, 10.0, 100.0],
+        "fit_intercept": [true, false],
+        "class_weight": [null, "balanced"],
+        "solver": ["auto", "svd", "cholesky", "lsqr", "sag", "saga"],
+		"random_state": 42
+    },
+    "notes": "Default RidgeClassifier"
+  },
+
+  "ET": {
+    "id": "ET",
+    "task": "classifier",
+    "sklearn_class": "ExtraTreesClassifier",
+    "step_name": "classifier",
+    "params": {
+        "n_estimators": [300, 600, 1000],
+        "max_depth": [null, 3, 5, 8, 12],
+        "min_samples_split": [2, 5, 10, 20],
+        "min_samples_leaf": [1, 2, 5, 10],
+        "max_features": ["sqrt", "log2", 0.3, 0.5, 0.8],
+        "bootstrap": [false, true],
+        "class_weight": [null, "balanced", "balanced_subsample"],
+		"random_state": 42
+    },
+    "notes": "Default ExtraTrees classifier"
+  },
+
+  "SVC_MODEL": {
+    "id": "SVC_MODEL",
+    "task": "classifier",
+    "sklearn_class": "SVC",
+    "step_name": "classifier",
+    "params": {
+        "C": [0.1, 1.0, 10.0, 100.0],
+        "kernel": ["rbf", "linear", "poly", "sigmoid"],
+        "gamma": ["scale", "auto"],
+        "degree": [2, 3, 4],
+        "coef0": [0.0, 0.5, 1.0],
+        "class_weight": [null, "balanced"],
+        "shrinking": [true, false],
+        "tol": [1e-3, 1e-4],
+		"random_state": 42
+    },
+    "notes": "Default RBF SVC (probability=true)"
+  },
+
+  "MLP_CLF": {
+    "id": "MLP_CLF",
+    "task": "classifier",
+    "sklearn_class": "MLPClassifier",
+    "step_name": "classifier",
+    "params": {
+        "hidden_layer_sizes": [[100], [128, 64]],
+        "activation": ["relu"],
+        "solver": ["adam"],
+        "alpha": [0.0001, 0.001],
+        "learning_rate_init": [0.001],
+        "early_stopping": [true],
+		"random_state": 42
+    },
+    "notes": "Default MLP classifier"
+  },
+
+  "HGBR": {
+    "id": "HGBR",
+    "task": "regressor",
+    "sklearn_class": "HistGradientBoostingRegressor",
+    "step_name": "regressor",
+    "params": [
+        {
+            "loss": ["squared_error", "absolute_error"],
+            "learning_rate": [0.01, 0.03, 0.05, 0.10],
+            "max_iter": [200, 500],
+            "max_depth": [2, 3, 4],
+            "min_samples_leaf": [10, 20, 50],
+            "l2_regularization": [0.0, 0.1],
+            "max_features": [0.8, 1.0],
+            "max_bins": [128, 255],
+            "early_stopping": [false],
+			"random_state": 42
+        },
+        {
+            "loss": ["quantile"],
+            "quantile": [0.5, 0.75, 0.9],
+            "learning_rate": [0.01, 0.03, 0.05],
+            "max_iter": [200, 500],
+            "max_depth": [2, 3, 4],
+            "min_samples_leaf": [10, 20, 50],
+            "l2_regularization": [0.0, 0.1],
+            "max_features": [0.8, 1.0],
+            "max_bins": [128],
+            "early_stopping": [false],
+			"random_state": 42
+        }
+    ],
+    "notes": "Default HGB regressor"
+  },
+
+  "RFR": {
+    "id": "RFR",
+    "task": "regressor",
+    "sklearn_class": "RandomForestRegressor",
+    "step_name": "regressor",
+    "params": {
+        "n_estimators": [300, 600, 1000],
+        "max_depth": [null, 3, 5, 8, 12],
+        "min_samples_split": [2, 5, 10, 20],
+        "min_samples_leaf": [1, 2, 5, 10],
+        "max_features": ["sqrt", "log2", 0.3, 0.5, 0.8],
+        "bootstrap": [true, false],
+		"random_state": 42
+    },
+    "notes": "Default RandomForest regressor"
+  },
+
+  "RIDGE_REG": {
+    "id": "RIDGE_REG",
+    "task": "regressor",
+    "sklearn_class": "Ridge",
+    "step_name": "regressor",
+    "params": {
+        "alpha": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+        "fit_intercept": [true, false],
+        "solver": ["auto", "svd", "cholesky", "lsqr", "sag", "saga"],
+        "tol": [1e-4, 1e-3, 1e-2],
+		"random_state": 42
+    },
+    "notes": "Default Ridge regressor"
+  },
+
+  "ENET_REG": {
+    "id": "ENET_REG",
+    "task": "regressor",
+    "sklearn_class": "ElasticNet",
+    "step_name": "regressor",
+    "params": {
+        "alpha": [1e-4, 1e-3, 1e-2, 1e-1, 1.0, 10.0],
+        "l1_ratio": [0.05, 0.2, 0.5, 0.8, 0.95],
+        "fit_intercept": [true, false],
+        "selection": ["cyclic", "random"],
+        "tol": [1e-4, 1e-3, 1e-2],
+		"random_state": 42
+    },
+    "notes": "Default ElasticNet regressor"
+  },
+
+  "HUBER_REG": {
+    "id": "HUBER_REG",
+    "task": "regressor",
+    "sklearn_class": "HuberRegressor",
+    "step_name": "regressor",
+    "params": {
+        "epsilon": [1.1, 1.2, 1.35, 1.5, 1.75, 2.0],
+        "alpha": [1e-5, 1e-4, 1e-3, 1e-2, 1e-1],
+        "fit_intercept": [true, false],
+        "tol": [1e-4, 1e-3, 1e-2],
+		"random_state": 42
+    },
+    "notes": "Default Huber regressor"
+  },
+
+  "MLP_REG": {
+    "id": "MLP_REG",
+    "task": "regressor",
+    "sklearn_class": "MLPRegressor",
+    "step_name": "regressor",
+    "params": {
+        "hidden_layer_sizes": [[100], [128, 64]],
+        "activation": ["relu"],
+        "solver": ["adam"],
+        "alpha": [0.0001, 0.001],
+        "learning_rate_init": [0.001],
+        "early_stopping": [true],
+		"random_state": 42
+    },
+    "notes": "Default MLP regressor"
+  },
+
+  "HGBC_SMALL": {
+    "id": "HGBC_SMALL",
+    "task": "classifier",
+    "sklearn_class": "HistGradientBoostingClassifier",
+    "step_name": "classifier",
+    "params": {
+		"learning_rate": [0.05, 0.1],
+		"max_iter": [200],
+		"max_depth": [3],
+		"min_samples_leaf": [20],
+		"l2_regularization": [0.0, 0.1],
+		"max_features": [1.0],
+		"class_weight": [null, "balanced"],
+		"early_stopping": [false],
+		"class_weight": [null, "balanced"],
+		"random_state": [42]
+    },
+	"scoring": {
+		"F1_macro": "f1_macro",
+		"F1_weighted": "f1_weighted",
+		"BalancedAcc": "balanced_accuracy",
+		"Accuracy": "accuracy",
+		"LogLoss": "neg_log_loss"
+    },
+	"notes": "Default HGBC classifier"
+  },
+
+  "RFC_SMALL": {
+    "id": "RFC_SMALL",
+    "task": "classifier",
+    "sklearn_class": "RandomForestClassifier",
+    "step_name": "classifier",
+    "params": {
+		"n_estimators": [300],
+		"max_depth": [5, 10],
+		"min_samples_split": [5],
+		"min_samples_leaf": [2],
+		"max_features": ["sqrt"],
+		"bootstrap": [true, false],
+		"class_weight": [null, "balanced", "balanced_subsample"],
+		"random_state": [42]
+    },
+	"scoring": {
+		"F1_macro": "f1_macro",
+		"F1_weighted": "f1_weighted",
+		"BalancedAcc": "balanced_accuracy",
+		"Accuracy": "accuracy",
+		"LogLoss": "neg_log_loss"
+    },
+    "notes": "Default RandomForest classifier"
+  }
+}

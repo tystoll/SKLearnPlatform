@@ -1,0 +1,354 @@
+{
+	"HGBC_SMALL": {
+		"id": "HGBC_SMALL",
+		"task": "classifier",
+		"sklearn_class": "HistGradientBoostingClassifier",
+		"step_name": "classifier",
+		"params": {
+			"learning_rate": 0.05,
+			"max_iter": 200,
+			"max_depth": 3,
+			"min_samples_leaf": 20,
+			"l2_regularization": 0.0,
+			"max_features": 1.0,
+			"class_weight": "balanced",
+			"early_stopping": false,
+			"random_state": 42
+		},
+		"scoring": {
+			"F1_macro": "f1_macro",
+			"F1_weighted": "f1_weighted",
+			"BalancedAcc": "balanced_accuracy",
+			"Accuracy": "accuracy",
+			"LogLoss": "neg_log_loss"
+		}
+	},
+	"RFC_SMALL": {
+		"id": "RFC_SMALL",
+		"task": "classifier",
+		"sklearn_class": "RandomForestClassifier",
+		"step_name": "classifier",
+		"params": {
+			"n_estimators": 300,
+			"max_depth": 5,
+			"min_samples_split": 5,
+			"min_samples_leaf": 2,
+			"max_features": "sqrt",
+			"bootstrap": true,
+			"class_weight": "balanced",
+			"random_state": 42
+		},
+		"scoring": {
+			"F1_macro": "f1_macro",
+			"F1_weighted": "f1_weighted",
+			"BalancedAcc": "balanced_accuracy",
+			"Accuracy": "accuracy",
+			"LogLoss": "neg_log_loss"
+		}
+	},
+
+  "HGBC": {
+    "id": "HGBC",
+    "task": "classifier",
+    "sklearn_class": "HistGradientBoostingClassifier",
+    "step_name": "classifier",
+    "params": {
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_depth": 3,
+      "min_samples_leaf": 20,
+      "l2_regularization": 0.1,
+      "max_features": 1.0,
+      "max_bins": 128,
+      "early_stopping": false,
+      "class_weight": "balanced",
+      "random_state": 42
+    },
+	"scoring": {
+	  "F1_macro": "f1_macro",
+	  "F1_weighted": "f1_weighted",
+	  "BalancedAcc": "balanced_accuracy",
+	  "Accuracy": "accuracy",
+	  "LogLoss": "neg_log_loss"
+    },
+    "notes": "Default HGBC classifier"
+  },
+
+  "RFC": {
+    "id": "RFC",
+    "task": "classifier",
+    "sklearn_class": "RandomForestClassifier",
+    "step_name": "rf",
+    "params": {
+      "n_estimators": 300,
+      "max_depth": 10,
+      "min_samples_split": 5,
+      "min_samples_leaf": 2,
+      "max_features": "sqrt",
+      "bootstrap": true,
+      "class_weight": "balanced",
+      "random_state": 42
+    },
+	"scoring": {
+	  "F1_macro": "f1_macro",
+	  "F1_weighted": "f1_weighted",
+	  "BalancedAcc": "balanced_accuracy",
+	  "Accuracy": "accuracy",
+	  "LogLoss": "neg_log_loss"
+    },
+    "notes": "Default RandomForest classifier"
+  },
+
+  "LOGREG": {
+    "id": "LOGREG",
+    "task": "classifier",
+    "sklearn_class": "LogisticRegression",
+    "step_name": "logreg",
+    "params": {
+      "penalty": "l2",
+      "C": 1.0,
+      "solver": "lbfgs",
+      "fit_intercept": true,
+      "class_weight": "balanced",
+      "max_iter": 3000,
+      "random_state": 42
+    },
+	"scoring": {
+	  "F1_macro": "f1_macro",
+	  "F1_weighted": "f1_weighted",
+	  "BalancedAcc": "balanced_accuracy",
+	  "Accuracy": "accuracy",
+	  "LogLoss": "neg_log_loss"
+    },
+    "notes": "Default logistic regression classifier"
+  },
+
+  "RIDGE_CLF": {
+    "id": "RIDGE_CLF",
+    "task": "classifier",
+    "sklearn_class": "RidgeClassifier",
+    "step_name": "ridge_clf",
+    "params": {
+      "alpha": 1.0,
+      "fit_intercept": true,
+      "class_weight": "balanced",
+      "solver": "auto",
+      "random_state": 42
+    },
+    "scoring": {
+        "F1_macro": "f1_macro",
+        "F1_weighted": "f1_weighted",
+        "BalancedAcc": "balanced_accuracy",
+        "Accuracy": "accuracy"
+    },
+    "notes": "Default RidgeClassifier"
+  },
+
+  "ET": {
+    "id": "ET",
+    "task": "classifier",
+    "sklearn_class": "ExtraTreesClassifier",
+    "step_name": "et",
+    "params": {
+      "n_estimators": 300,
+      "max_depth": 10,
+      "min_samples_split": 5,
+      "min_samples_leaf": 2,
+      "max_features": "sqrt",
+      "bootstrap": false,
+      "class_weight": "balanced",
+      "random_state": 42
+    },
+    "scoring": {
+        "F1_macro": "f1_macro",
+        "F1_weighted": "f1_weighted",
+        "BalancedAcc": "balanced_accuracy",
+        "Accuracy": "accuracy",
+        "LogLoss": "neg_log_loss"
+    },
+    "notes": "Default ExtraTrees classifier"
+  },
+
+  "SVC_MODEL": {
+    "id": "SVC_MODEL",
+    "task": "classifier",
+    "sklearn_class": "SVC",
+    "step_name": "svc",
+    "params": {
+      "C": 1.0,
+      "kernel": "rbf",
+      "gamma": "scale",
+      "class_weight": "balanced",
+      "probability": true,
+      "random_state": 42
+    },
+    "scoring": {
+        "F1_macro": "f1_macro",
+        "F1_weighted": "f1_weighted",
+        "BalancedAcc": "balanced_accuracy",
+        "Accuracy": "accuracy",
+        "LogLoss": "neg_log_loss"
+    },
+    "notes": "Default RBF SVC (probability=True)"
+  },
+
+  "MLP_CLF": {
+    "id": "MLP_CLF",
+    "task": "classifier",
+    "sklearn_class": "MLPClassifier",
+    "step_name": "mlp_clf",
+    "params": {
+      "hidden_layer_sizes": [100],
+      "activation": "relu",
+      "solver": "adam",
+      "alpha": 0.0001,
+      "learning_rate_init": 0.001,
+      "early_stopping": true,
+      "max_iter": 2000,
+      "random_state": 42
+    },
+    "scoring": {
+        "F1_macro": "f1_macro",
+        "F1_weighted": "f1_weighted",
+        "BalancedAcc": "balanced_accuracy",
+        "Accuracy": "accuracy",
+        "LogLoss": "neg_log_loss"
+    },
+    "notes": "Default MLP classifier"
+  },
+
+  "HGBR": {
+    "id": "HGBR",
+    "task": "regressor",
+    "sklearn_class": "HistGradientBoostingRegressor",
+    "step_name": "regressor",
+    "params": {
+      "loss": "squared_error",
+      "learning_rate": 0.05,
+      "max_iter": 200,
+      "max_depth": 3,
+      "min_samples_leaf": 20,
+      "l2_regularization": 0.1,
+      "max_features": 1.0,
+      "max_bins": 128,
+      "early_stopping": false,
+      "random_state": 42
+    },
+    "scoring": {
+        "MAE": "neg_mean_absolute_error",
+        "RMSE": "neg_root_mean_squared_error",
+        "MSE": "neg_mean_squared_error",
+        "R2": "r2"
+    },
+    "notes": "Default HGB regressor"
+  },
+
+  "RFR": {
+    "id": "RFR",
+    "task": "regressor",
+    "sklearn_class": "RandomForestRegressor",
+    "step_name": "rf_reg",
+    "params": {
+      "n_estimators": 300,
+      "max_depth": 10,
+      "min_samples_split": 5,
+      "min_samples_leaf": 2,
+      "max_features": "sqrt",
+      "bootstrap": true,
+      "random_state": 42
+    },
+    "scoring": {
+        "MAE": "neg_mean_absolute_error",
+        "RMSE": "neg_root_mean_squared_error",
+        "MSE": "neg_mean_squared_error",
+        "R2": "r2"
+    },
+    "notes": "Default RandomForest regressor"
+  },
+
+  "RIDGE_REG": {
+    "id": "RIDGE_REG",
+    "task": "regressor",
+    "sklearn_class": "Ridge",
+    "step_name": "ridge_reg",
+    "params": {
+      "alpha": 1.0,
+      "fit_intercept": true,
+      "solver": "auto",
+      "random_state": 42
+    },
+    "scoring": {
+        "MAE": "neg_mean_absolute_error",
+        "RMSE": "neg_root_mean_squared_error",
+        "MSE": "neg_mean_squared_error",
+        "R2": "r2"
+    },
+    "notes": "Default Ridge regressor"
+  },
+
+  "ENET_REG": {
+    "id": "ENET_REG",
+    "task": "regressor",
+    "sklearn_class": "ElasticNet",
+    "step_name": "enet_reg",
+    "params": {
+      "alpha": 0.1,
+      "l1_ratio": 0.5,
+      "fit_intercept": true,
+      "selection": "cyclic",
+      "max_iter": 20000,
+      "random_state": 42
+    },
+    "scoring": {
+        "MAE": "neg_mean_absolute_error",
+        "RMSE": "neg_root_mean_squared_error",
+        "MSE": "neg_mean_squared_error",
+        "R2": "r2"
+    },
+    "notes": "Default ElasticNet regressor"
+  },
+
+  "HUBER_REG": {
+    "id": "HUBER_REG",
+    "task": "regressor",
+    "sklearn_class": "HuberRegressor",
+    "step_name": "huber_reg",
+    "params": {
+      "epsilon": 1.35,
+      "alpha": 0.0001,
+      "fit_intercept": true,
+      "max_iter": 2000
+    },
+    "scoring": {
+        "MAE": "neg_mean_absolute_error",
+        "RMSE": "neg_root_mean_squared_error",
+        "MSE": "neg_mean_squared_error",
+        "R2": "r2"
+    },
+    "notes": "Default Huber regressor"
+  },
+
+  "MLP_REG": {
+    "id": "MLP_REG",
+    "task": "regressor",
+    "sklearn_class": "MLPRegressor",
+    "step_name": "mlp_reg",
+    "params": {
+      "hidden_layer_sizes": [100],
+      "activation": "relu",
+      "solver": "adam",
+      "alpha": 0.0001,
+      "learning_rate_init": 0.001,
+      "early_stopping": true,
+      "max_iter": 2000,
+      "random_state": 42
+    },
+    "scoring": {
+        "MAE": "neg_mean_absolute_error",
+        "MSE": "neg_mean_squared_error",
+        "RMSE": "neg_root_mean_squared_error",
+        "R2": "r2"
+    },
+    "notes": "Default MLP regressor"
+  }
+}

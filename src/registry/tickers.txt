@@ -1,0 +1,29 @@
+# tickers.txt
+# One ticker per line
+# Lines starting with # are ignored
+
+NVDA
+BBAI
+TSLA
+ONDS
+PLUG
+OPEN
+AAL
+RIVN
+BMNR
+AVGO
+K
+IREN
+CLSK
+INTC
+CIFR
+PFE
+MARA
+DNN
+ORCL
+F
+SOFI
+APLD
+WULF
+SNAP
+NU
